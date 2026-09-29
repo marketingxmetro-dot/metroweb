@@ -476,49 +476,62 @@
   .listing-media, .proy-media{cursor:pointer;}
 
   .lightbox{
-    position:fixed;inset:0;background:rgba(10,14,18,.94);z-index:1000;
+    position:fixed;inset:0;background:rgba(10,14,18,.92);z-index:1000;
     display:none;align-items:center;justify-content:center;padding:24px;
     overflow-y:auto;
   }
   .lightbox.open{display:flex;}
+
+  /* La foto, el título y la ficha viven en UNA sola tarjeta: mismo borde, misma sombra. */
   .lightbox-content{
-    display:flex;flex-direction:column;align-items:center;gap:14px;
-    max-width:900px;width:100%;margin:auto;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    max-width:760px;width:100%;margin:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+    display:flex;flex-direction:column;
+    max-height:calc(100vh - 48px);
   }
-  .lightbox-content img{max-width:100%;max-height:62vh;border-radius:6px;object-fit:contain;}
+  .lightbox-media{position:relative;background:#0d1216;flex-shrink:0;}
+  .lightbox-media img{width:100%;max-height:50vh;object-fit:contain;display:block;background:#0d1216;}
+  .lightbox-info{padding:22px 26px 26px;overflow-y:auto;}
+  .lightbox-info-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding-bottom:16px;margin-bottom:16px;border-bottom:3px solid var(--arena);
+  }
   .lightbox-title{
-    background:#fff;color:var(--negro);font-family:'Anton',sans-serif;
-    text-transform:uppercase;letter-spacing:.5px;font-size:15px;
-    padding:12px 26px;border-radius:var(--radius);text-align:center;max-width:92%;
+    font-family:'Anton',sans-serif;color:var(--azul);
+    text-transform:uppercase;letter-spacing:.5px;font-size:19px;margin:0;
   }
-  .lightbox-desc{
-    background:#fff;color:#3a3a37;font-family:'Barlow',sans-serif;
-    padding:20px 24px;border-radius:6px;font-size:14px;line-height:1.65;
-    width:100%;max-height:26vh;overflow-y:auto;
-  }
+  .lightbox-counter{font-size:12px;letter-spacing:1.5px;color:var(--gris);white-space:nowrap;}
+  .lightbox-desc{color:#3a3a37;font-size:14px;line-height:1.65;}
   .lightbox-desc:empty{display:none;}
   .ficha-line{margin-bottom:8px;}
   .ficha-line:last-child{margin-bottom:0;}
   .ficha-line b{color:var(--azul);}
+
   .lightbox-close{
-    position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;
+    position:fixed;top:20px;right:20px;width:44px;height:44px;border-radius:50%;
     background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;
     font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    z-index:2;
+    z-index:1010;
   }
   .lightbox-nav{
-    position:fixed;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;
-    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;
-    font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    z-index:2;
+    position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;
+    font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(3px);transition:background .2s ease;
   }
-  .lightbox-prev{left:16px;}
-  .lightbox-next{right:16px;}
-  .lightbox-counter{position:relative;color:#fff;font-size:13px;letter-spacing:1px;}
+  .lightbox-nav:hover{background:rgba(255,255,255,.32);}
+  .lightbox-prev{left:14px;}
+  .lightbox-next{right:14px;}
   @media (max-width:640px){
-    .lightbox-nav{width:40px;height:40px;font-size:20px;}
+    .lightbox{padding:0;}
+    .lightbox-content{max-height:100vh;border-radius:0;}
+    .lightbox-media img{max-height:38vh;}
+    .lightbox-nav{width:38px;height:38px;font-size:20px;}
     .lightbox-close{width:38px;height:38px;font-size:20px;}
-    .lightbox-desc{max-height:22vh;font-size:13.5px;}
+    .lightbox-info{padding:18px 20px 22px;}
   }
 
   ::selection{background:var(--arena);color:var(--negro);}
