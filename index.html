@@ -71,6 +71,15 @@
   .proy-grid > .reveal, .listing-grid > .reveal{display:flex;flex-direction:column;}
   .proy-grid > .reveal > .proy-card, .listing-grid > .reveal > .listing-card{flex:1;width:100%;}
 
+  /* ---------- Acento bajo títulos (firma visual) ---------- */
+  .h2-accent{position:relative;padding-bottom:20px;}
+  .h2-accent::after{
+    content:'';position:absolute;left:0;bottom:0;height:4px;width:64px;
+    background:var(--arena);transform:scaleX(0);transform-origin:left;
+    transition:transform .8s cubic-bezier(.2,.65,.3,1) .25s;
+  }
+  .reveal-stagger.is-visible .h2-accent::after{transform:scaleX(1);}
+
   /* ---------- Isotipo pattern (signature texture) ---------- */
   .iso-pattern{
     position:absolute;inset:0;
@@ -255,6 +264,46 @@
   .section-pad{padding:110px 0;}
   .bg-tint{background:var(--gris-claro);}
 
+  /* ================= CARRUSEL (compartido) ================= */
+  .carousel{position:relative;}
+  .carousel-track{
+    display:flex;gap:30px;
+    overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    padding:4px 4px 10px;margin:-4px -4px -6px;
+  }
+  .carousel-track::-webkit-scrollbar{display:none;}
+  .carousel-track > .reveal{scroll-snap-align:start;}
+  .proy-grid.carousel-track, .listing-grid.carousel-track{display:flex;}
+  .proy-grid.carousel-track > .reveal,
+  .listing-grid.carousel-track > .reveal{flex:0 0 calc((100% - 60px)/3);}
+  @media (max-width:960px){
+    .proy-grid.carousel-track > .reveal,
+    .listing-grid.carousel-track > .reveal{flex:0 0 calc((100% - 30px)/2);}
+  }
+  @media (max-width:640px){
+    .proy-grid.carousel-track > .reveal,
+    .listing-grid.carousel-track > .reveal{flex:0 0 85%;}
+  }
+  .carousel-arrow{
+    position:absolute;top:calc(50% - 26px);transform:translateY(-50%);
+    width:48px;height:48px;border-radius:50%;
+    background:#fff;border:1px solid #e7e5df;color:var(--azul);
+    display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;
+    box-shadow:0 12px 26px rgba(28,52,70,.16);cursor:pointer;z-index:5;
+    transition:background .2s ease, color .2s ease;
+  }
+  .carousel-arrow:hover{background:var(--azul);color:#fff;}
+  .carousel-prev{left:-24px;}
+  .carousel-next{right:-24px;}
+  .carousel-arrow[hidden]{display:none;}
+  @media (max-width:1300px){.carousel-prev{left:0;}.carousel-next{right:0;}}
+  @media (max-width:640px){.carousel-arrow{display:none;}}
+  .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:30px;}
+  .carousel-dots[hidden]{display:none;}
+  .carousel-dot{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:#d8d6cf;cursor:pointer;transition:background .25s ease, width .25s ease;}
+  .carousel-dot.active{background:var(--azul);width:26px;border-radius:4px;}
+
   /* ================= PROYECTOS REALIZADOS ================= */
   .proy-grid{
     display:grid;
@@ -276,7 +325,8 @@
   }
   .proy-media .iso-pattern{opacity:.6;}
   .proy-media .iso-mark{width:34%;position:relative;z-index:1;opacity:.9;}
-  .proy-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .proy-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.65,.3,1);}
+  .proy-card:hover .proy-media img{transform:scale(1.07);}
   .proy-tag{
     position:absolute;top:14px;left:14px;z-index:2;
     background:var(--verde);color:#fff;
@@ -293,9 +343,6 @@
     border-left:3px solid var(--arena);padding:10px 16px;background:#fff;
   }
 
-  @media (max-width:960px){.proy-grid{grid-template-columns:1fr 1fr;}}
-  @media (max-width:640px){.proy-grid{grid-template-columns:1fr;}}
-
   /* ================= UNIDADES EN VENTA ================= */
   .activos-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
 
@@ -310,7 +357,8 @@
   }
   .listing-card:hover{box-shadow:0 20px 40px rgba(28,52,70,.14);transform:translateY(-4px);}
   .listing-media{position:relative;aspect-ratio:4/3;background:var(--azul);overflow:hidden;}
-  .listing-media img{width:100%;height:100%;object-fit:cover;}
+  .listing-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.65,.3,1);}
+  .listing-card:hover .listing-media img{transform:scale(1.07);}
   .listing-media .iso-pattern{opacity:.55;}
   .listing-media .iso-mark{width:34%;position:relative;z-index:1;margin:auto;}
   .listing-status{
@@ -520,7 +568,7 @@
     </div>
     <div class="marca-text reveal-stagger">
       <div class="eyebrow">LA MARCA</div>
-      <h2>Solidez, confianza<br>y visión de crecimiento.</h2>
+      <h2 class="h2-accent">Solidez, confianza<br>y visión de crecimiento.</h2>
       <p>Somos una desarrolladora inmobiliaria con base en Neuquén. Combinamos criterio de inversión con procesos de obra prolijos, acompañando cada proyecto desde el terreno hasta la escritura.</p>
       <p>Nuestra identidad se apoya en tres pilares: el azul, que transmite seguridad institucional; el arena y el verde, que remiten a los materiales, al valor de la tierra y a la proyección de crecimiento.</p>
       <div class="stat-row">
@@ -539,13 +587,18 @@
   <div class="container">
     <div class="section-head reveal-stagger">
       <div class="eyebrow">TRAYECTORIA</div>
-      <h2>Proyectos realizados</h2>
+      <h2 class="h2-accent">Proyectos realizados</h2>
       <p>Una selección de desarrollos entregados por METRO en Neuquén.</p>
     </div>
 
-    <div class="proy-grid" id="realizadosGrid">
-      <!-- generado por JS desde Supabase -->
+    <div class="carousel">
+      <button class="carousel-arrow carousel-prev" data-target="realizadosGrid" aria-label="Anterior" hidden>&#8249;</button>
+      <button class="carousel-arrow carousel-next" data-target="realizadosGrid" aria-label="Siguiente" hidden>&#8250;</button>
+      <div class="proy-grid carousel-track" id="realizadosGrid">
+        <!-- generado por JS desde Supabase -->
+      </div>
     </div>
+    <div class="carousel-dots" id="realizadosDots" hidden></div>
     <p id="realizadosEmpty" style="display:none;color:var(--gris);font-size:14.5px;">Muy pronto vas a poder ver acá nuestros proyectos entregados.</p>
   </div>
 </section>
@@ -558,12 +611,17 @@
     <div class="activos-head section-head" style="margin-bottom:0;">
       <div class="reveal-stagger">
         <div class="eyebrow">DISPONIBILIDAD</div>
-        <h2>Unidades en venta</h2>
+        <h2 class="h2-accent">Unidades en venta</h2>
         <p>Proyectos activos y unidades disponibles hoy.</p>
       </div>
     </div>
 
-    <div class="listing-grid" id="listingGrid"></div>
+    <div class="carousel">
+      <button class="carousel-arrow carousel-prev" data-target="listingGrid" aria-label="Anterior" hidden>&#8249;</button>
+      <button class="carousel-arrow carousel-next" data-target="listingGrid" aria-label="Siguiente" hidden>&#8250;</button>
+      <div class="listing-grid carousel-track" id="listingGrid"></div>
+    </div>
+    <div class="carousel-dots" id="listingDots" hidden></div>
     <div class="empty-state" id="emptyState" style="display:none;">
       <h3>Todavía no hay unidades cargadas</h3>
       <p>Usá "Administrar publicaciones" para agregar la primera.</p>
@@ -577,7 +635,7 @@
   <div class="container grid">
     <div class="reveal-stagger">
       <div class="eyebrow">CONTACTO</div>
-      <h2>Hablemos de tu<br>próxima inversión.</h2>
+      <h2 class="h2-accent">Hablemos de tu<br>próxima inversión.</h2>
       <p class="lead">Contanos qué estás buscando — unidad para vivienda, inversión o desarrollo a medida — y te respondemos a la brevedad.</p>
 
       <div class="wa-card">
@@ -843,6 +901,7 @@ async function renderRealizados(){
   }).join('');
 
   initReveal(grid);
+  setupCarousel('realizadosGrid', 'realizadosDots');
 
   grid.querySelectorAll('[data-gallery]').forEach(el => {
     const p = proyectos[Number(el.dataset.gallery)];
@@ -927,6 +986,7 @@ async function renderListings(){
   }).join('');
 
   initReveal(grid);
+  setupCarousel('listingGrid', 'listingDots');
 
   grid.querySelectorAll('[data-gallery]').forEach(el => {
     const l = listings[Number(el.dataset.gallery)];
@@ -960,6 +1020,60 @@ function initReveal(root){
   });
 }
 initReveal(document);
+
+/* ---------- Carrusel (Proyectos realizados / Unidades en venta) ---------- */
+function setupCarousel(trackId, dotsId){
+  const track = document.getElementById(trackId);
+  const dotsEl = document.getElementById(dotsId);
+  const wrapper = track ? track.closest('.carousel') : null;
+  if(!track || !wrapper) return;
+  const prevBtn = wrapper.querySelector('.carousel-prev');
+  const nextBtn = wrapper.querySelector('.carousel-next');
+  const slides = Array.from(track.children);
+
+  function refresh(){
+    const scrollable = track.scrollWidth > track.clientWidth + 4;
+    if(prevBtn) prevBtn.hidden = !scrollable;
+    if(nextBtn) nextBtn.hidden = !scrollable;
+    if(dotsEl) dotsEl.hidden = !scrollable || slides.length < 2;
+  }
+
+  if(dotsEl){
+    dotsEl.innerHTML = slides.map((_, i) => `<button type="button" class="carousel-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Ir a la foto ${i + 1}"></button>`).join('');
+    dotsEl.querySelectorAll('.carousel-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const s = slides[Number(dot.dataset.i)];
+        if(s) track.scrollTo({ left: s.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      });
+    });
+  }
+
+  let scrollTimer;
+  track.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      if(!dotsEl) return;
+      let closest = 0, closestDist = Infinity;
+      slides.forEach((s, i) => {
+        const dist = Math.abs((s.offsetLeft - track.offsetLeft) - track.scrollLeft);
+        if(dist < closestDist){ closestDist = dist; closest = i; }
+      });
+      dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === closest));
+    }, 120);
+  }, { passive: true });
+
+  refresh();
+  window.addEventListener('resize', () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(refresh, 150); });
+}
+
+document.querySelectorAll('.carousel-arrow').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const track = document.getElementById(btn.dataset.target);
+    if(!track) return;
+    const dir = btn.classList.contains('carousel-prev') ? -1 : 1;
+    track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: 'smooth' });
+  });
+});
 </script>
 </body>
 </html>
