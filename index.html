@@ -2,7 +2,7 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>METRO | Inversiones & Desarrollos Inmobiliarios</title>
 <meta name="description" content="METRO Inversiones & Desarrollos Inmobiliarios — Neuquén. Agregamos valor, construimos futuro.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -304,7 +304,7 @@
   .carousel-dot{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:#d8d6cf;cursor:pointer;transition:background .25s ease, width .25s ease;}
   .carousel-dot.active{background:var(--azul);width:26px;border-radius:4px;}
 
-  /* ================= PROYECTOS REALIZADOS ================= */
+  /* ================= PROYECTOS ================= */
   .proy-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -535,6 +535,122 @@
     .lightbox-info-head{padding-bottom:16px;margin-bottom:18px;}
   }
 
+  /* ================= ETAPAS (badges) ================= */
+  .proy-tag.etapa-finalizado{background:var(--verde);color:#fff;}
+  .proy-tag.etapa-en_obra, .listing-etapa.etapa-en_obra{background:var(--arena);color:var(--negro);}
+  .proy-tag.etapa-a_desarrollar, .listing-etapa.etapa-en_pozo{background:var(--azul);color:#fff;}
+  .listing-etapa.etapa-finalizada{background:var(--verde);color:#fff;}
+  .listing-etapa{
+    position:absolute;top:14px;left:14px;z-index:2;
+    font-family:'Anton',sans-serif;font-size:11px;letter-spacing:1px;
+    padding:6px 12px;border-radius:var(--radius);
+  }
+
+  /* ================= MARCA: logo grande + movimiento al scrollear ================= */
+  .marca-grid{grid-template-columns:1fr 1fr;gap:60px;}
+  .marca-logo-img{
+    max-width:560px;--amp:70px;
+    transform:translate3d(0, calc((.5 - var(--p,.5)) * var(--amp)), 0)
+              rotate(calc((var(--p,.5) - .5) * -5deg))
+              scale(calc(.92 + var(--p,.5) * .24));
+    will-change:transform;
+  }
+  .marca-logo-col.reveal{
+    transform:translateY(50px) scale(.8);
+    transition:opacity 1s ease, transform 1.3s cubic-bezier(.34,1.4,.5,1);
+  }
+  .marca-logo-col.reveal.is-visible{transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    .marca-logo-img{transform:none!important;}
+  }
+
+  /* El bloque de contacto va siempre centrado: la barrita del título también */
+  .contacto .h2-accent::after{left:50%;margin-left:-32px;}
+
+  /* ================= RESPONSIVE (iPhone, Android, plegables, iPad) ================= */
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+  a, button{-webkit-tap-highlight-color:transparent;}
+  .carousel-dot{position:relative;}
+  .carousel-dot::after{content:'';position:absolute;inset:-12px -5px;}   /* área táctil más grande */
+  .field input,.field textarea,.field select{font-size:16px;}            /* evita el zoom automático de iOS */
+  .wa-float{bottom:calc(26px + env(safe-area-inset-bottom));right:calc(26px + env(safe-area-inset-right));}
+
+  @media (hover:none){                                                    /* pantallas táctiles: sin "hover" pegado */
+    .proy-card:hover, .listing-card:hover{transform:none;box-shadow:none;}
+    .proy-card:hover .proy-media img, .listing-card:hover .listing-media img{transform:none;}
+    .btn:hover{transform:none;}
+  }
+
+  /* iPad / tablet chica en horizontal: nav más compacto para que entre todo */
+  @media (min-width:861px) and (max-width:1100px){
+    .nav-links{gap:22px;}
+    .nav-links a{font-size:13px;}
+    .nav-logo-img{height:108px;}
+    .nav.scrolled .nav-logo-img{height:80px;}
+  }
+
+  /* Tablet vertical, plegables abiertos y celulares */
+  @media (max-width:900px){
+    .marca-grid{grid-template-columns:1fr;gap:34px;}
+    .marca-logo-img{max-width:min(78vw,400px);--amp:34px;}
+    .marca-text .eyebrow{justify-content:center;}
+    .marca-text .eyebrow::after{content:'';width:30px;height:2px;background:var(--verde);}
+    .marca-text .h2-accent::after{left:50%;margin-left:-32px;}
+    .marca p{margin-left:auto;margin-right:auto;}
+  }
+  @media (max-width:860px){
+    .nav-logo-img{height:84px;}
+    .nav.scrolled .nav-logo-img{height:60px;}
+    .nav-links{height:100vh;height:100dvh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);}
+    .nav-links a{font-size:18px;}
+    .nav-cta{margin-top:6px;}
+    .nav-burger{font-size:30px;min-width:46px;min-height:46px;padding:0;}
+    .hero{padding-top:126px;padding-bottom:84px;}
+  }
+  @media (max-width:640px){
+    .container{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));}
+    .section-pad{padding:72px 0;}
+    .marca{padding:72px 0;}
+    .section-head{margin-bottom:34px;}
+    .activos-head.section-head{margin-bottom:0;}
+    .listing-grid.carousel-track{margin-top:34px;}
+    .hero h1{font-size:clamp(36px,11.5vw,54px);}
+    .hero p.lead{font-size:17px;}
+    .hero-actions{flex-direction:column;gap:12px;margin-top:32px;}
+    .hero-actions .btn{width:100%;justify-content:center;}
+    /* Las rayitas decorativas antes de "LA MARCA", "CONTACTO", etc. quedan mal en pantallas chicas */
+    .eyebrow::before, .eyebrow::after, .hero-eyebrow::before{display:none!important;}
+    .hero-eyebrow{font-size:11px;letter-spacing:2px;line-height:1.7;margin-bottom:18px;}
+    .eyebrow{letter-spacing:2.5px;font-size:12px;margin-bottom:14px;}
+    .marca p{font-size:16px;line-height:1.7;}
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:34px;}
+    .stat b{font-size:32px;}
+    .stat span{display:block;margin-top:6px;font-size:10.5px;letter-spacing:.6px;line-height:1.3;}
+    .proy-body, .listing-body{padding:20px 20px 22px;}
+    .wa-card{padding:20px;gap:14px;}
+    .footer-top, .footer-bottom{flex-direction:column;align-items:flex-start;}
+    .footer-links{gap:12px 22px;}
+    .wa-float{width:54px;height:54px;bottom:calc(18px + env(safe-area-inset-bottom));right:calc(16px + env(safe-area-inset-right));}
+    .lightbox-content{max-height:100vh;max-height:100dvh;}
+    .lightbox-close{top:calc(12px + env(safe-area-inset-top));right:12px;}
+  }
+  /* Pantallas muy angostas (pantalla externa de plegables, celulares chicos) */
+  @media (max-width:360px){
+    .container{padding-left:16px;padding-right:16px;}
+    .hero h1{font-size:clamp(30px,11vw,40px);}
+    .btn{padding:14px 16px;font-size:13px;}
+    .stat-row{grid-template-columns:1fr;gap:18px;}
+    .proy-grid.carousel-track > .reveal, .listing-grid.carousel-track > .reveal{flex-basis:90%;}
+    .nav-logo-img{height:70px;}
+    .nav.scrolled .nav-logo-img{height:52px;}
+    .wa-float{width:48px;height:48px;}
+  }
+  /* Celular en horizontal: el hero no tiene que ocupar toda la pantalla */
+  @media (max-height:480px) and (orientation:landscape){
+    .hero{min-height:auto;padding-top:104px;padding-bottom:48px;}
+    .nav-links{overflow-y:auto;gap:14px;}
+  }
+
   ::selection{background:var(--arena);color:var(--negro);}
 </style>
 </head>
@@ -549,7 +665,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#marca">Marca</a></li>
-      <li><a href="#realizados">Proyectos</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
       <li><a href="#activos">En venta</a></li>
       <li><a href="#contacto" class="nav-cta">Contacto</a></li>
     </ul>
@@ -596,13 +712,13 @@
 
 <div class="divider-strip"><span class="s3"></span><span class="s1"></span><span class="s2"></span></div>
 
-<!-- ============ PROYECTOS REALIZADOS ============ -->
-<section class="section-pad bg-tint" id="realizados">
+<!-- ============ PROYECTOS ============ -->
+<section class="section-pad bg-tint" id="proyectos">
   <div class="container">
     <div class="section-head reveal-stagger">
       <div class="eyebrow">TRAYECTORIA</div>
-      <h2 class="h2-accent">Proyectos realizados</h2>
-      <p>Una selección de desarrollos entregados por METRO en Neuquén.</p>
+      <h2 class="h2-accent">Proyectos</h2>
+      <p>Desarrollos de METRO en Neuquén: entregados, en obra y por desarrollar.</p>
     </div>
 
     <div class="carousel">
@@ -613,7 +729,7 @@
       </div>
     </div>
     <div class="carousel-dots" id="realizadosDots" hidden></div>
-    <p id="realizadosEmpty" style="display:none;color:var(--gris);font-size:14.5px;">Muy pronto vas a poder ver acá nuestros proyectos entregados.</p>
+    <p id="realizadosEmpty" style="display:none;color:var(--gris);font-size:14.5px;">Muy pronto vas a poder ver acá nuestros proyectos.</p>
   </div>
 </section>
 
@@ -690,7 +806,7 @@
       <div class="footer-links">
         <a href="#inicio">Inicio</a>
         <a href="#marca">Marca</a>
-        <a href="#realizados">Proyectos</a>
+        <a href="#proyectos">Proyectos</a>
         <a href="#activos">En venta</a>
         <a href="#contacto">Contacto</a>
       </div>
@@ -728,7 +844,7 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"></script>
 <script>
 /* ============================================================
    CONFIG — reemplazá estos datos por los reales del negocio
@@ -768,14 +884,25 @@ async function loadSettings(){
   const emailLink = document.getElementById('emailLink');
   if(emailLink) emailLink.href = `mailto:${CONFIG.email}`;
 
+  /* Solo se acepta http(s): cualquier otro esquema (p.ej. "javascript:") se descarta
+     para que un valor cargado en "settings" nunca pueda ejecutarse al hacer click. */
+  function safeExternalUrl(raw){
+    try{
+      const u = new URL(String(raw || '').trim());
+      return (u.protocol === 'http:' || u.protocol === 'https:') ? u.href : null;
+    }catch(e){ return null; }
+  }
+
   const instagramLink = document.getElementById('instagramLink');
   if(instagramLink){
-    if(s.instagram_url){ instagramLink.href = s.instagram_url; instagramLink.style.display = ''; }
+    const safeIg = safeExternalUrl(s.instagram_url);
+    if(safeIg){ instagramLink.href = safeIg; instagramLink.style.display = ''; }
     else{ instagramLink.style.display = 'none'; }
   }
   const facebookLink = document.getElementById('facebookLink');
   if(facebookLink){
-    if(s.facebook_url){ facebookLink.href = s.facebook_url; facebookLink.style.display = ''; }
+    const safeFb = safeExternalUrl(s.facebook_url);
+    if(safeFb){ facebookLink.href = safeFb; facebookLink.style.display = ''; }
     else{ facebookLink.style.display = 'none'; }
   }
 
@@ -889,6 +1016,14 @@ async function getProyectos(){
   return data || [];
 }
 
+/* ---------- Etapas (lista cerrada: nunca se inserta en el HTML un valor que no esté acá) ---------- */
+const PROY_ETAPAS = { finalizado:'Finalizado', en_obra:'En obra', a_desarrollar:'A desarrollar' };
+const LIST_ETAPAS = { finalizada:'Finalizada', en_obra:'En obra', en_pozo:'En pozo' };
+const LIST_STATUS = { disponible:'Disponible', reservado:'Reservado', vendido:'Vendido' };
+function pickKey(map, key, fallback){
+  return (typeof key === 'string' && Object.prototype.hasOwnProperty.call(map, key)) ? key : fallback;
+}
+
 async function renderRealizados(){
   const proyectos = await getProyectos();
   const grid = document.getElementById('realizadosGrid');
@@ -908,7 +1043,7 @@ async function renderRealizados(){
         ${imgs.length
           ? `<img src="${escapeHtml(imgs[0])}" alt="${escapeHtml(p.title)}" loading="lazy">`
           : `<div class="iso-pattern"></div>${isoSVG}`}
-        <span class="proy-tag">FINALIZADO</span>
+        ${(() => { const k = pickKey(PROY_ETAPAS, p.etapa, 'finalizado'); return `<span class="proy-tag etapa-${k}">${PROY_ETAPAS[k]}</span>`; })()}
       </div>
       <div class="proy-body">
         <h3>${escapeHtml(p.title)}</h3>
@@ -926,7 +1061,7 @@ async function renderRealizados(){
   grid.querySelectorAll('[data-gallery]').forEach(el => {
     const p = proyectos[Number(el.dataset.gallery)];
     const imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
-    const ficha = [p.location ? `Ubicación: ${p.location}` : '', p.description || ''].filter(Boolean).join('\n');
+    const ficha = [`Etapa: ${PROY_ETAPAS[pickKey(PROY_ETAPAS, p.etapa, 'finalizado')]}`, p.location ? `Ubicación: ${p.location}` : '', p.description || ''].filter(Boolean).join('\n');
     el.addEventListener('click', () => openLightbox(imgs, 0, p.title, ficha));
   });
 }
@@ -961,7 +1096,7 @@ function fmtPrice(l){
 }
 
 function statusLabel(s){
-  return { disponible:'Disponible', reservado:'Reservado', vendido:'Vendido' }[s] || s;
+  return LIST_STATUS[pickKey(LIST_STATUS, s, 'disponible')];
 }
 
 async function renderListings(){
@@ -985,7 +1120,8 @@ async function renderListings(){
         ${imgs.length
           ? `<img src="${escapeHtml(imgs[0])}" alt="${escapeHtml(l.title)}" loading="lazy">`
           : `<div class="iso-pattern"></div>${isoSVG}`}
-        <span class="listing-status status-${l.status}">${statusLabel(l.status)}</span>
+        ${l.etapa && pickKey(LIST_ETAPAS, l.etapa, null) ? `<span class="listing-etapa etapa-${l.etapa}">${LIST_ETAPAS[l.etapa]}</span>` : ''}
+        <span class="listing-status status-${pickKey(LIST_STATUS, l.status, 'disponible')}">${statusLabel(l.status)}</span>
       </div>
       <div class="listing-body">
         <h3>${escapeHtml(l.title)}</h3>
@@ -1013,6 +1149,7 @@ async function renderListings(){
     const imgs = (l.images && l.images.length) ? l.images : (l.image ? [l.image] : []);
     const ficha = [
       l.location ? `Ubicación: ${l.location}` : '',
+      pickKey(LIST_ETAPAS, l.etapa, null) ? `Etapa: ${LIST_ETAPAS[l.etapa]}` : '',
       `Estado: ${statusLabel(l.status)}`,
       l.m2 ? `Superficie: ${l.m2} m²` : '',
       `Precio: ${fmtPrice(l)}`,
@@ -1041,7 +1178,7 @@ function initReveal(root){
 }
 initReveal(document);
 
-/* ---------- Carrusel (Proyectos realizados / Unidades en venta) ---------- */
+/* ---------- Carrusel (Proyectos / Unidades en venta) ---------- */
 function setupCarousel(trackId, dotsId){
   const track = document.getElementById(trackId);
   const dotsEl = document.getElementById(dotsId);
@@ -1094,6 +1231,25 @@ document.querySelectorAll('.carousel-arrow').forEach(btn => {
     track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: 'smooth' });
   });
 });
+
+/* ---------- Marca: el logo se mueve y crece suavemente mientras scrolleás ---------- */
+(function(){
+  const col = document.querySelector('.marca-logo-col');
+  const img = col && col.querySelector('.marca-logo-img');
+  if(!img || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  let ticking = false;
+  function update(){
+    ticking = false;
+    const r = col.getBoundingClientRect();
+    const vh = window.innerHeight || 800;
+    const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));  // 0 = entra por abajo, 1 = sale por arriba
+    img.style.setProperty('--p', p.toFixed(3));
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll, { passive:true });
+  update();
+})();
 </script>
 </body>
 </html>
